@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         }
         else {
-            inforarry.push(new inforObject(
+            let addinfo = new inforObject(
                 document.getElementById('userName').value,
                 document.getElementById('gender').value,
                 document.getElementById('birth').value,
@@ -62,33 +62,31 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById('select-condition').value,
                 symptoms,
                 pathlist,
-                document.getElementById('firstComment').value))
+                document.getElementById('firstComment').value)
+
+                addNewinfor(addinfo) //새로온녀석 **********************   
         }
 
         alert('Completed')
-        console.log(inforarry)
 
+        createList()
 
-        //createList()
-        FillArrayFromServer();
         delinput()
 
         });
 
 
     // page before show code *************************************************************************
-    //$(document).on("pagebeforeshow", "#ListAll", function (event) {   // have to use jQuery 
-    //    FillArrayFromServer();
-    //    //createList();
-    //});
+    $(document).on("pagebeforeshow", "#Visit", function (event) {   // have to use jQuery 
+        FillArrayFromServer();
+        //createList();
+    });
 
 
     document.getElementById("buttonAdd").addEventListener('click', function () {
         let addPathList = document.getElementById("path_list")
         var form = document.createElement('form')
         form.className = "js_form"
-
-
 
         for (let i = 0; i < 4; i++) {
             if (i == 0) {
@@ -137,6 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $("#path").remove();
         }
     })
+
 
 
     $(document).on("pagebeforeshow", "#details", function (event) {   // have to use jQuery 
@@ -233,7 +232,7 @@ function shareInfo(whichToAdd) {
     // p.append(" ");
 };
 
-
+//서버에서 데이터 가져오기 
 function FillArrayFromServer(){
     // using fetch call to communicate with node server to get all data
     fetch('/visitList')
@@ -256,31 +255,33 @@ function FillArrayFromServer(){
 
 
 
-function addNewMoive(newMovie){
-    // the required post body data is our movie object passed into this function
-        
-        // create request object
-        const request = new Request('/addMovie', {
-            method: 'POST',
-            body: JSON.stringify(newMovie),
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            })
-        });
-        
-      // use that request object we just created for our fetch() call
-      fetch(request)
-      // wait for frist server promise response of "200" success 
-      // (can name these returned promise objects anything you like)
-         .then(function (theResonsePromise) {    // the .json sets up 2nd promise
-          return theResonsePromise.json()  })
-       // now wait for the 2nd promise, which is when data has finished being returned to client
-          .then(function (theResonsePromiseJson) { 
-            console.log(theResonsePromiseJson.toString()), 
-            document.location.href = "#ListAll" 
-            })
-      // the client console log will write out the message I added to the Repsonse on the server
-      .catch(function (err) {
-          console.log(err);
-      });
-    }; 
+
+    //새로운 경로 업데이트
+    function addNewinfor(addinfo){
+        // the required post body data is our movie object passed into this function
+            
+            // create request object
+            const request = new Request('/addInfor', {
+                method: 'POST',
+                body: JSON.stringify(addinfo),
+                headers: new Headers({
+                    'Content-Type': 'application/json'
+                })
+            });
+            
+          // use that request object we just created for our fetch() call
+          fetch(request)
+          // wait for frist server promise response of "200" success 
+          // (can name these returned promise objects anything you like)
+             .then(function (theResonsePromise) {    // the .json sets up 2nd promise
+              return theResonsePromise.json()  })
+           // now wait for the 2nd promise, which is when data has finished being returned to client
+              .then(function (theResonsePromiseJson) { 
+                console.log(theResonsePromiseJson.toString()), 
+                document.location.href = "#Visit" 
+                })
+          // the client console log will write out the message I added to the Repsonse on the server
+          .catch(function (err) {
+              console.log(err);
+          });
+        }; // end of addNewMovie

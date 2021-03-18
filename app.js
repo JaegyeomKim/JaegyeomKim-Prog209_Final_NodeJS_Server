@@ -16,9 +16,6 @@ app.use(express.static('public'))
 
 
 
-
-
-
 //	테스트 코드를 가져옴
 let serverinforarry = [];
 let pathlist = [];
@@ -52,13 +49,6 @@ serverinforarry.push(new inforObject(
     "I am Kay"))
 
 
-
-
-
-
-
-
-
 //  HTML
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
@@ -72,13 +62,13 @@ app.get('/visitList', function(req, res) {
 
 
 
-
-
-
-
-
-
-
+/* POST to addInformation */
+app.post('/addInfor', function(req, res) {
+    console.log(req.body);
+    serverinforarry.push(req.body);
+    // set the res(ponse) object's status propery to a 200 code, which means success
+    res.status(200).send(JSON.stringify('success'));
+  });
 
 
 
