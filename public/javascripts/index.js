@@ -139,6 +139,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     $(document).on("pagebeforeshow", "#details", function (event) {   // have to use jQuery 
+        if (document.getElementById("IDparmHere".innerHTML == "change1")) {
+            alert("Sorry, temporary error, please try again");
+            document.location.href = "index.html#Visit";
+        }
+        else {
         let localID = document.getElementById("IDparmHere").innerHTML;
         let arrayPointer = GetArrayPointer(localID);
         console.log(inforarry[arrayPointer])
@@ -146,6 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("oneBirth").innerHTML = "Birth: " + inforarry[arrayPointer].Birth;
         document.getElementById("oneGender").innerHTML = "Gender: " + inforarry[arrayPointer].Gender;
         document.getElementById("oneEmail").innerHTML = "Email: " + inforarry[arrayPointer].Email;
+        }
     });
 
 
