@@ -1,5 +1,6 @@
 let inforarry = [];
 let pathlist = [];
+let commentList = [];
 
 // define a constructor to create User's information objects
 let inforObject = function (pName, pGender, pBirth, pEmail, pSituation, pSymptoms, pPath, pInformation) {
@@ -15,8 +16,9 @@ let inforObject = function (pName, pGender, pBirth, pEmail, pSituation, pSymptom
 
     this.Information = pInformation;
 }
-
-
+let commentObject = function (pComment) {
+    this.comment = pComment;
+}
 
 //inforarry.push(new inforObject(
 //    'Kay',
@@ -30,6 +32,8 @@ let inforObject = function (pName, pGender, pBirth, pEmail, pSituation, pSymptom
 //        "AM 08:30",
 //        "PM 2:30"],
 //    "I am Kay"))
+
+// HealthCondition -> Submibutton -> Push informaion to inforarry
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -64,17 +68,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 pathlist,
                 document.getElementById('firstComment').value)
 
-                addNewinfor(addinfo) //새로온녀석 **********************   
+            addNewinfor(addinfo) //새로온녀석 **********************   
         }
-
         alert('Completed')
 
         createList()
-
         delinput()
 
-        });
-
+    });
 
     // page before show code *************************************************************************
     $(document).on("pagebeforeshow", "#Visit", function (event) {   // have to use jQuery 
@@ -144,13 +145,13 @@ document.addEventListener("DOMContentLoaded", function () {
             document.location.href = "index.html#Visit";
         }
         else {
-        let localID = document.getElementById("IDparmHere").innerHTML;
-        let arrayPointer = GetArrayPointer(localID);
-        console.log(inforarry[arrayPointer])
-        document.getElementById("oneName").innerHTML = "Name: " + inforarry[arrayPointer].Name;
-        document.getElementById("oneBirth").innerHTML = "Birth: " + inforarry[arrayPointer].Birth;
-        document.getElementById("oneGender").innerHTML = "Gender: " + inforarry[arrayPointer].Gender;
-        document.getElementById("oneEmail").innerHTML = "Email: " + inforarry[arrayPointer].Email;
+            let localID = document.getElementById("IDparmHere").innerHTML;
+            let arrayPointer = GetArrayPointer(localID);
+            console.log(inforarry[arrayPointer])
+            document.getElementById("oneName").innerHTML = "Name: " + inforarry[arrayPointer].Name;
+            document.getElementById("oneBirth").innerHTML = "Birth: " + inforarry[arrayPointer].Birth;
+            document.getElementById("oneGender").innerHTML = "Gender: " + inforarry[arrayPointer].Gender;
+            document.getElementById("oneEmail").innerHTML = "Email: " + inforarry[arrayPointer].Email;
         }
     });
 
@@ -185,8 +186,6 @@ function createList() {
     });
 
     PathList.appendChild(ul);
-
-
 
     var liArray = document.getElementsByClassName("onePath");
     Array.from(liArray).forEach(function (element) {
@@ -239,55 +238,51 @@ function shareInfo(whichToAdd) {
 };
 
 //서버에서 데이터 가져오기 
-function FillArrayFromServer(){
+function FillArrayFromServer() {
     // using fetch call to communicate with node server to get all data
     fetch('/visitList')
-    .then(function (theResonsePromise) {  // wait for reply.  Note this one uses a normal function, not an => function
-        return theResonsePromise.json();
-    })
-    .then(function (serverData) { // now wait for the 2nd promise, which is when data has finished being returned to client
-    console.log(serverData);
-    inforarry.length = 0;  // clear array
-    inforarry = serverData;   // use our server json data which matches our objects in the array perfectly
-    createList();  // placing this here will make it wait for data from server to be complete before re-doing the list
-    })
-    .catch(function (err) {
-     console.log(err);
-    });
+        .then(function (theResonsePromise) {  // wait for reply.  Note this one uses a normal function, not an => function
+            return theResonsePromise.json();
+        })
+        .then(function (serverData) { // now wait for the 2nd promise, which is when data has finished being returned to client
+            console.log(serverData);
+            inforarry.length = 0;  // clear array
+            inforarry = serverData;   // use our server json data which matches our objects in the array perfectly
+            createList();  // placing this here will make it wait for data from server to be complete before re-doing the list
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
 };
 
 
+//새로운 경로 업데이트
+function addNewinfor(addinfo) {
+    // the required post body data is our movie object passed into this function
 
+    // create request object
+    const request = new Request('/addInfor', {
+        method: 'POST',
+        body: JSON.stringify(addinfo),
+        headers: new Headers({
+            'Content-Type': 'application/json'
+        })
+    });
 
-
-
-
-    //새로운 경로 업데이트
-    function addNewinfor(addinfo){
-        // the required post body data is our movie object passed into this function
-            
-            // create request object
-            const request = new Request('/addInfor', {
-                method: 'POST',
-                body: JSON.stringify(addinfo),
-                headers: new Headers({
-                    'Content-Type': 'application/json'
-                })
-            });
-            
-          // use that request object we just created for our fetch() call
-          fetch(request)
-          // wait for frist server promise response of "200" success 
-          // (can name these returned promise objects anything you like)
-             .then(function (theResonsePromise) {    // the .json sets up 2nd promise
-              return theResonsePromise.json()  })
-           // now wait for the 2nd promise, which is when data has finished being returned to client
-              .then(function (theResonsePromiseJson) { 
-                console.log(theResonsePromiseJson.toString()), 
-                document.location.href = "#Visit" 
-                })
-          // the client console log will write out the message I added to the Repsonse on the server
-          .catch(function (err) {
-              console.log(err);
-          });
-        }; // end of addNewMovie
+    // use that request object we just created for our fetch() call
+    fetch(request)
+        // wait for frist server promise response of "200" success 
+        // (can name these returned promise objects anything you like)
+        .then(function (theResonsePromise) {    // the .json sets up 2nd promise
+            return theResonsePromise.json()
+        })
+        // now wait for the 2nd promise, which is when data has finished being returned to client
+        .then(function (theResonsePromiseJson) {
+            console.log(theResonsePromiseJson.toString()),
+                document.location.href = "#Visit"
+        })
+        // the client console log will write out the message I added to the Repsonse on the server
+        .catch(function (err) {
+            console.log(err);
+        });
+}; // end of addNewMovie

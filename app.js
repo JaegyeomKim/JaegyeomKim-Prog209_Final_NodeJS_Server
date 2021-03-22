@@ -11,14 +11,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'))
 
 
-
-
-
-
-
 //	테스트 코드를 가져옴
-let serverinforarry = [];
+let serverInfoArray = [];
 let pathlist = [];
+
 
 // define a constructor to create User's information objects
 let inforObject = function (pName, pGender, pBirth, pEmail, pSituation, pSymptoms, pPath, pInformation) {
@@ -35,51 +31,30 @@ let inforObject = function (pName, pGender, pBirth, pEmail, pSituation, pSymptom
     this.Information = pInformation;
 }
 
-serverinforarry.push(new inforObject(
-    'Kay',
-    'Male',
-    '1994.12.15',
-    'kay1215@gmail.com',
-    'General',
-    ' Fever, Cough',
-    ["BellevueCollege",
-        "2021. 02. 10",
-        "AM 08:30",
-        "PM 2:30"],
-    "I am Kay"))
-
-
 //  HTML
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
 /* GET VisitVisitVisitVisitVisitVisitVisit. */
 //http://localhost:3000/visit 에 정보가 입력됨
-app.get('/visitList', function(req, res) {
-    res.json(serverinforarry);
+app.get('/visitList', function (req, res) {
+    res.json(serverInfoArray);
 });
 
-
-
 /* POST to addInformation */
-app.post('/addInfor', function(req, res) {
+app.post('/addInfor', function (req, res) {
     console.log(req.body);
-    serverinforarry.push(req.body);
+    serverInfoArray.push(req.body);
     // set the res(ponse) object's status propery to a 200 code, which means success
     res.status(200).send(JSON.stringify('success'));
-  });
-
-
-
-
-
+});
 
 // error page 
-app.get('/error', function(req, res) {
+app.get('/error', function (req, res) {
     // should get real data from some real operation, but instead ...
     let message = "some text from someplace";
-    let errorObject ={
+    let errorObject = {
         status: "this is real bad",
         stack: "somebody called #$% somebody who called somebody <awful>"
     };
