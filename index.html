@@ -14,7 +14,7 @@
   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
-  
+
   <script src="/javascripts/index.js"></script>
   <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
 
@@ -174,8 +174,7 @@
 
 
       Share any Information (It will be uploaded to the post.)<br />
-      <textarea name="comment" id="firstComment" rows="10" cols="50">Example: 
-        I am a 30-year-old woman. I had a fever five days ago, and when I tested the virus, it was confirmed positive. I haven't had a taste for 10 days since I got the virus.
+      <textarea name="comment" id="firstComment" rows="10" cols="50">
     </textarea>
 
 
@@ -292,18 +291,17 @@
     <div data-role="content" data-theme='a'>
       <h1> Share information </h1>
       <div id="InformationList">
-        <li id="sharedInfo">
-          Example:
-          I am a 30-year-old woman. I had a fever five days ago, and when I tested the virus, it was confirmed positive.
-          I haven't had a taste for 10 days since I got the virus.
-        </li>
+        <ul id="sharedInfo">
+          <li>
+            Example:
+            I am a 30-year-old woman. I had a fever five days ago, and when I tested the virus, it was confirmed
+            positive.
+            I haven't had a taste for 10 days since I got the virus.
+          </li>
+        </ul>
       </div>
 
       <br />
-      Share any Information<br />
-      <textarea name="comment" rows="10" id="secondComment" cols="50"></textarea>
-      <input type="button" value="post" id="buttonpost" data-inline="true" onclick="shareInfo('secondComment')">
-
     </div>
 
 
@@ -353,7 +351,7 @@
             1500 116th Ave Ne Bellevue WA 98004
             (206) 987-2211
           </li>
-          </ul>
+        </ul>
       </div>
 
     </div>

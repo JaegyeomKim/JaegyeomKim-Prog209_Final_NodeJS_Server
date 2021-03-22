@@ -43,6 +43,12 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('submitButton').addEventListener("click", function () {
 
         let symptoms = [];
+        let infos = [];
+
+        $("input[name='comment']").each(function (e) {
+            var value = $(this).val();
+            infos.push(value);
+        })
 
         $("input[name='symptoms']:checked").each(function (e) {
             var value = $(this).val();
@@ -57,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (symptoms.length === 0 && document.getElementById('select-condition').value == 'General') {
 
         }
+
         else {
             let addinfo = new inforObject(
                 document.getElementById('userName').value,
@@ -138,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })
 
 
-
+    //tried alert id, outputs "change1"
     $(document).on("pagebeforeshow", "#details", function (event) {   // have to use jQuery 
         if (document.getElementById("IDparmHere".innerHTML == "change1")) {
             alert("Sorry, temporary error, please try again");
@@ -161,15 +168,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-
-
-
-
-
-
-
 function createList() {
     let PathList = document.getElementById('divPathList');
+    let comment = document.getElementById("sharedInfo");
     while (PathList.firstChild) {
         PathList.removeChild(PathList.firstChild)
     }
@@ -178,11 +179,15 @@ function createList() {
 
 
     inforarry.forEach(function (element,) {
+        // need to view page "Travel Path" first, then the page "Share Health Condition" will be loaded
         let li = document.createElement('li');
         li.classList.add('onePath'); //디테일 떄문에
         li.setAttribute("data-parm", element.ID); // 디테일 떄문에
         li.innerHTML = "Location:  " + element.Path + " Situation: " + element.Situation + " (" + element.Symptoms + ")";
         ul.appendChild(li);
+        let newComment = document.createElement('li');
+        newComment.innerHTML = element.Information;
+        comment.append(newComment);
     });
 
     PathList.appendChild(ul);
