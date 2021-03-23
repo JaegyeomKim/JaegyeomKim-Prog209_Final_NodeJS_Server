@@ -174,6 +174,9 @@ function createList() {
     while (PathList.firstChild) {
         PathList.removeChild(PathList.firstChild)
     }
+    while (comment.firstChild) {
+        comment.removeChild(comment.firstChild)
+    }
 
     let ul = document.createElement("ul");
 
@@ -213,6 +216,7 @@ function delinput() {
         document.getElementById('birth').value = "",
         document.getElementById('email').value = "",
         document.getElementById('firstComment').value = ""
+    document.getElementById("Information").value = ""
     $(document).bind("change", "#select-condition", function (event, ui) {
         selectedGenre = $('#select-genre').val();
     });
@@ -228,19 +232,19 @@ function GetArrayPointer(localID) {
 }
 
 
-function shareInfo(whichToAdd) {
-    let ul = document.getElementById("sharedInfo");
-    let li = document.createElement("li");
-    let firstComment = document.createTextNode(document.getElementById(whichToAdd).value);
-    li.append(firstComment);
-    li.append(" ");
-    ul.append(li);
-    // let p = document.getElementById("sharedInfo");
-    // let firstComment = document.createTextNode(document.getElementById(whichToAdd).value);
-    // p.append(" ");
-    // p.append(firstComment);
-    // p.append(" ");
-};
+// function shareInfo(whichToAdd) {
+//     let ul = document.getElementById("sharedInfo");
+//     let li = document.createElement("li");
+//     let firstComment = document.createTextNode(document.getElementById(whichToAdd).value);
+//     li.append(firstComment);
+//     li.append(" ");
+//     ul.append(li);
+// let p = document.getElementById("sharedInfo");
+// let firstComment = document.createTextNode(document.getElementById(whichToAdd).value);
+// p.append(" ");
+// p.append(firstComment);
+// p.append(" ");
+// };
 
 //서버에서 데이터 가져오기 
 function FillArrayFromServer() {
