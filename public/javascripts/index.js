@@ -147,11 +147,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //tried alert id, outputs "change1"
     $(document).on("pagebeforeshow", "#details", function (event) {   // have to use jQuery 
-        if (document.getElementById("IDparmHere".innerHTML == "change1")) {
-            alert("Sorry, temporary error, please try again");
+        if (document.getElementById("IDparmHere").innerHTML == "change1") {
+
+            document.getElementById("IDparmHere").innerHTML = localStorage.getItem("parm")
             document.location.href = "index.html#Visit";
+
+            inforarry = JSON.parse(localStorage.getItem('array'))
         }
-        else {
+        //else {
             let localID = document.getElementById("IDparmHere").innerHTML;
             let arrayPointer = GetArrayPointer(localID);
             console.log(inforarry[arrayPointer])
@@ -159,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("oneBirth").innerHTML = "Birth: " + inforarry[arrayPointer].Birth;
             document.getElementById("oneGender").innerHTML = "Gender: " + inforarry[arrayPointer].Gender;
             document.getElementById("oneEmail").innerHTML = "Email: " + inforarry[arrayPointer].Email;
-        }
+        //}
     });
 
 
@@ -202,6 +205,17 @@ function createList() {
             var parm = this.getAttribute("data-parm");  // passing in the record.Id
             // get our hidden <p> and write THIS ID value there
             document.getElementById("IDparmHere").innerHTML = parm;
+
+
+
+
+            localStorage.setItem("parm", parm); //teamC*****
+            let stringDate = JSON.stringify(inforarry);
+            localStorage.setItem("array", stringDate)
+
+
+
+
             // now jump to our page that will use that one item
             document.location.href = "index.html#details";
         });
